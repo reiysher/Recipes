@@ -6,32 +6,27 @@ namespace StateSync.Api.Shared.Persistence;
 internal sealed class UnitOfWork(
     ApplicationDbContext dbContext,
     IEnumerable<ISyncProjectionHandler> projectionHandlers)
-    : IUnitOfWork, IDisposable
+    : IUnitOfWork
 {
     public async Task<int> Commit(CancellationToken cancellationToken)
     {
-        var changedAggregates = dbContext.ChangeTracker
-            .Entries<IAggregateRoot>()
+        var changedEntities = dbContext.ChangeTracker
+            .Entries<IProjectionSource>()
             .Where(e => e.State is EntityState.Added or EntityState.Modified)
             .Select(e => e.Entity)
             .ToArray();
 
-        foreach (var aggregate in changedAggregates)
+        foreach (var entity in changedEntities)
         {
             foreach (var projectionHandler in projectionHandlers)
             {
-                if (projectionHandler.CanHandle(aggregate))
+                if (projectionHandler.CanHandle(entity))
                 {
-                    await projectionHandler.Handle(aggregate);
+                    await projectionHandler.Handle(entity);
                 }
             }
         }
 
         return await dbContext.SaveChangesAsync(cancellationToken);
-    }
-
-    public void Dispose()
-    {
-        dbContext.Dispose();
     }
 }

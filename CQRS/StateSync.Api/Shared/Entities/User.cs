@@ -2,7 +2,7 @@
 
 namespace StateSync.Api.Shared.Entities;
 
-public sealed class User : IAggregateRoot
+public sealed class User : IProjectionSource
 {
     private User()
     {

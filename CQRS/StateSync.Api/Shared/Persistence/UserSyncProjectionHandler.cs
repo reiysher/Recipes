@@ -6,11 +6,11 @@ namespace StateSync.Api.Shared.Persistence;
 
 internal sealed class UserSyncProjectionHandler(ApplicationDbContext dbContext) : ISyncProjectionHandler
 {
-    public bool CanHandle(IAggregateRoot aggregate) => aggregate is User;
+    public bool CanHandle(IProjectionSource entity) => entity is User;
 
-    public async Task Handle(IAggregateRoot aggregate)
+    public async Task Handle(IProjectionSource entity)
     {
-        if (aggregate is not User user)
+        if (entity is not User user)
         {
             return;
         }

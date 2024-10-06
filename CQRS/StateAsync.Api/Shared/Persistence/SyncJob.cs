@@ -57,9 +57,11 @@ internal sealed class SyncJob(
                 continue;
             }
 
+            dbContext.Attach(syncEntity);
+
             syncEntity.LastSyncUtc = utcNow;
             syncEntity.HasChanges = false;
-            dbContext.Set<SyncEntity>().Attach(syncEntity);
+
             await dbContext.SaveChangesAsync();
         }
     }

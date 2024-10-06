@@ -38,7 +38,7 @@ public static class ServiceCollectionExtensions
         using var scope = services.CreateScope();
         await using var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
-        await dbContext.Database.EnsureDeletedAsync(cancellationToken);
+        //await dbContext.Database.EnsureDeletedAsync(cancellationToken);
         await dbContext.Database.EnsureCreatedAsync(cancellationToken);
     }
 }

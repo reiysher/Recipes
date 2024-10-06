@@ -11,6 +11,7 @@ internal sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext
         modelBuilder.Entity<User>().ToTable("users");
 
         modelBuilder.Entity<UserProjection>().ToTable("user_reads");
+        modelBuilder.Entity<UserEmailProjection>().ToTable("user_email_reads");
 
         modelBuilder.Entity<SyncEntity>().ToTable("synchronization");
         modelBuilder.Entity<SyncEntity>().HasKey(e => e.Type);

@@ -34,6 +34,7 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddTransient<IAsyncProjectionHandler, UserAsyncProjectionHandler>();
+builder.Services.AddTransient<IAsyncProjectionHandler, UserEmailAsyncProjectionHandler>();
 
 builder.Services
     .AddBackgroundJobs();

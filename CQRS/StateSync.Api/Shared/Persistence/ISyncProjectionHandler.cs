@@ -4,7 +4,7 @@ namespace StateSync.Api.Shared.Persistence;
 
 public interface ISyncProjectionHandler
 {
-    bool CanHandle(IAggregateRoot aggregate);
+    bool CanHandle(IProjectionSource entity);
 
-    Task Handle(IAggregateRoot aggregate);
+    Task Handle(IProjectionSource entity);
 }
