@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StateSync.Api", "StateSync.Api\StateSync.Api.csproj", "{A07DE05C-2570-4046-B707-600E7B3C63AE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StateAsync.Api", "StateAsync.Api\StateAsync.Api.csproj", "{D7ABCAC7-2D4E-4482-93C1-8BD97A404CCE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{A07DE05C-2570-4046-B707-600E7B3C63AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A07DE05C-2570-4046-B707-600E7B3C63AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A07DE05C-2570-4046-B707-600E7B3C63AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7ABCAC7-2D4E-4482-93C1-8BD97A404CCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7ABCAC7-2D4E-4482-93C1-8BD97A404CCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7ABCAC7-2D4E-4482-93C1-8BD97A404CCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7ABCAC7-2D4E-4482-93C1-8BD97A404CCE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

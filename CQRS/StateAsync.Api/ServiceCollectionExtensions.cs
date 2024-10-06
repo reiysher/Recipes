@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using StateSync.Api.Shared.Persistence;
+using StateAsync.Api.Shared.Persistence;
 
-namespace StateSync.Api;
+namespace StateAsync.Api;
 
 public static class ServiceCollectionExtensions
 {
@@ -17,7 +17,7 @@ public static class ServiceCollectionExtensions
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.AddDbContext<ApplicationDbContext>((sp, options) =>
+        services.AddDbContext<ApplicationDbContext>((_, options) =>
         {
             string connectionString = configuration.GetConnectionString("Default")!;
 

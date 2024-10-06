@@ -5,7 +5,7 @@ namespace StateSync.Api.Shared.Persistence;
 
 internal sealed class UnitOfWork(
     ApplicationDbContext dbContext,
-    IEnumerable<IProjectionHandler> projectionHandlers)
+    IEnumerable<ISyncProjectionHandler> projectionHandlers)
     : IUnitOfWork, IDisposable
 {
     public async Task<int> Commit(CancellationToken cancellationToken)

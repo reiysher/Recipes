@@ -1,10 +1,11 @@
 using System.Reflection;
-using StateSync.Api;
-using StateSync.Api.Features.Users;
-using StateSync.Api.Shared.Abstractions;
-using StateSync.Api.Shared.Endpoints;
-using StateSync.Api.Shared.OpenApi;
-using StateSync.Api.Shared.Persistence;
+using StateAsync.Api;
+using StateAsync.Api.Features.Users;
+using StateAsync.Api.Shared.Abstractions;
+using StateAsync.Api.Shared.BackgroundJobs;
+using StateAsync.Api.Shared.Endpoints;
+using StateAsync.Api.Shared.OpenApi;
+using StateAsync.Api.Shared.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,11 +29,14 @@ builder.Services
     .AddTransient<GetUser.Handler>()
     .AddTransient<RegisterUser.Handler>();
 
-// todo: Sync CQRS
+// todo: Async CQRS
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
-builder.Services.AddTransient<ISyncProjectionHandler, UserSyncProjectionHandler>();
+builder.Services.AddTransient<IAsyncProjectionHandler, UserAsyncProjectionHandler>();
+
+builder.Services
+    .AddBackgroundJobs();
 
 var webApplication = builder.Build();
 

@@ -1,14 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using StateSync.Api.Shared.Abstractions;
-using StateSync.Api.Shared.Entities;
+using StateAsync.Api.Shared.Abstractions;
+using StateAsync.Api.Shared.Entities;
 
-namespace StateSync.Api.Shared.Persistence;
+namespace StateAsync.Api.Shared.Persistence;
 
-internal sealed class UserSummaryProjectionHandler(ApplicationDbContext dbContext) : IProjectionHandler
+internal sealed class UserAsyncProjectionHandler(ApplicationDbContext dbContext) : IAsyncProjectionHandler
 {
-    public bool CanHandle(IAggregateRoot aggregate) => aggregate is User;
+    public bool CanHandle(IProjectionSource aggregate) => aggregate is User;
 
-    public async Task Handle(IAggregateRoot aggregate)
+    public async Task Handle(IProjectionSource aggregate)
     {
         if (aggregate is not User user)
         {

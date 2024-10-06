@@ -364,4 +364,10 @@ FodyWeavers.xsd
 
 todo.md
 
+# Rider
 .idea/
+
+# SQLite
+*.db
+*.db-shm
+*.db-wal
