@@ -1,12 +1,39 @@
+using System.Reflection;
+using EventsSync.Api;
+using EventsSync.Api.Shared.Abstractions;
+using EventsSync.Api.Shared.Endpoints;
+using EventsSync.Api.Shared.OpenApi;
+using EventsSync.Api.Shared.Persistence;
+
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddOpenApi();
+builder.Services
+    .AddEndpointsApiExplorer()
+    .AddSwaggerGen(options =>
+    {
+        var schemaHelper = new SwashbuckleSchemaHelper();
+        options.CustomSchemaIds(type => schemaHelper.GetSchemaId(type));
+    });
 
-var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+builder.Services
+    .RegisterApplicationServices()
+    .RegisterPersistence(builder.Configuration)
+    .AddEndpoints(Assembly.GetExecutingAssembly());
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+var webApplication = builder.Build();
+
+if (webApplication.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    webApplication
+        .UseSwagger()
+        .UseSwaggerUI();
 }
 
-app.Run();
+webApplication.MapEndpoints();
+
+await webApplication.Services.InitializeDatabase();
+
+webApplication.Run();
