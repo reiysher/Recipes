@@ -1,0 +1,5 @@
+﻿<Solution>
+  <Project Path="EventsSync.Api\EventsSync.Api.csproj" Type="Classic C#" />
+  <Project Path="StateAsync.Api\StateAsync.Api.csproj" Type="Classic C#" />
+  <Project Path="StateSync.Api\StateSync.Api.csproj" Type="Classic C#" />
+</Solution>

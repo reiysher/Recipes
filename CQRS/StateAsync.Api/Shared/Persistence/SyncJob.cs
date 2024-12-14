@@ -17,6 +17,7 @@ internal sealed class SyncJob(
         var syncEntities = await dbContext
             .Set<SyncEntity>()
             .Where(e => e.HasChanges)
+            .AsNoTracking()
             .ToArrayAsync();
 
         foreach (var syncEntity in syncEntities)
