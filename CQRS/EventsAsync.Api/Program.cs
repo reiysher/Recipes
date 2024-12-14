@@ -22,6 +22,7 @@ builder.Services
     .AddEndpoints(Assembly.GetExecutingAssembly());
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 var webApplication = builder.Build();
 

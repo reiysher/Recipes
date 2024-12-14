@@ -15,8 +15,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Features\" />
-      <Folder Include="Shared\Entities\" />
       <Folder Include="Shared\Persistence\Database\" />
     </ItemGroup>
 
