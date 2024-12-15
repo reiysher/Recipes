@@ -39,8 +39,7 @@ internal static class RegisterUser
                 command.MiddleName,
                 command.Email);
 
-            userRepository.Insert(user);
-
+            await userRepository.Save(user, cancellationToken);
             await unitOfWork.Commit(cancellationToken);
 
             return Results.Ok(user.Id);

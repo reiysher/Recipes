@@ -17,7 +17,7 @@ internal static class ServiceCollectionExtensions
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.AddDbContext<ApplicationDbContext>((_, options) =>
+        services.AddDbContext<ApplicationDbContext>((sp, options) =>
         {
             string connectionString = configuration.GetConnectionString("Default")!;
 
@@ -38,7 +38,7 @@ internal static class ServiceCollectionExtensions
         using var scope = services.CreateScope();
         await using var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
-        //await dbContext.Database.EnsureDeletedAsync(cancellationToken);
+        await dbContext.Database.EnsureDeletedAsync(cancellationToken);
         await dbContext.Database.EnsureCreatedAsync(cancellationToken);
     }
 }

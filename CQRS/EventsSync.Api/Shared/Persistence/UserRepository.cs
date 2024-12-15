@@ -1,18 +1,19 @@
 ﻿using EventsSync.Api.Shared.Abstractions;
 using EventsSync.Api.Shared.Entities;
-using Microsoft.EntityFrameworkCore;
+using EventsSync.Api.Shared.EventSourcing;
+using EventsSync.Api.Shared.EventSourcing.Abstractions;
 
 namespace EventsSync.Api.Shared.Persistence;
 
-internal sealed class UserRepository(ApplicationDbContext dbContext) : IUserRepository
+internal sealed class UserRepository(IEventStore eventStore) : IUserRepository
 {
-    public void Insert(User user)
+    public Task Save(User user, CancellationToken cancellationToken)
     {
-        dbContext.Add(user);
+        return eventStore.Save(user.Id, user, cancellationToken);
     }
 
     public Task<User?> Get(Guid userId, CancellationToken cancellationToken)
     {
-        return dbContext.Set<User>().SingleOrDefaultAsync(u => u.Id == userId, cancellationToken);
+        return eventStore.AggregateStream<User>(userId, cancellationToken);
     }
 }

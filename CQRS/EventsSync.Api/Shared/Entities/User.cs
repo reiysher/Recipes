@@ -1,6 +1,8 @@
-﻿namespace EventsSync.Api.Shared.Entities;
+﻿using EventsSync.Api.Shared.Abstractions;
 
-public sealed class User
+namespace EventsSync.Api.Shared.Entities;
+
+public sealed class User : AggregateRoot<Guid>
 {
     private User()
     {
@@ -14,10 +16,18 @@ public sealed class User
         LastName = lastName;
         MiddleName = middleName;
         Email = email;
+
+        var domainEvent = new UserCreated(
+            Guid.NewGuid(),
+            DateTimeOffset.UtcNow,
+            Id,
+            FirstName,
+            LastName,
+            MiddleName,
+            Email);
+
+        RaiseDomainEvent(domainEvent);
     }
-
-    public Guid Id { get; private init; }
-
 
     public string FirstName { get; private set; }
 
@@ -32,18 +42,54 @@ public sealed class User
         FirstName = firstName;
         LastName = lastName;
         MiddleName = middleName;
+
+        var domainEvent = new UserPersonalInfoChanged(
+            Guid.NewGuid(),
+            DateTimeOffset.UtcNow,
+            Id,
+            FirstName,
+            LastName,
+            MiddleName);
+
+        RaiseDomainEvent(domainEvent);
     }
 
     public void ChangeEmail(string email)
     {
         Email = email;
+
+        var domainEvent = new UserEmailChanged(
+            Guid.NewGuid(),
+            DateTimeOffset.UtcNow,
+            Id,
+            Email);
+
+        RaiseDomainEvent(domainEvent);
     }
 
-    internal string GetFullName() =>
-        $"{LastName} {FirstName}"
-        + (string.IsNullOrWhiteSpace(MiddleName) ? string.Empty : $" {MiddleName}");
+    public override void Apply(IDomainEvent domainEvent)
+    {
+        When(domainEvent as dynamic);
+    }
 
-    internal string GetShortName() =>
-        $"{LastName} {FirstName.ToUpperInvariant().First()}."
-        + (string.IsNullOrWhiteSpace(MiddleName) ? string.Empty : $" {MiddleName.ToUpperInvariant().First()}.");
+    private void When(UserCreated domainEvent)
+    {
+        Id = domainEvent.UserId;
+        FirstName = domainEvent.FirstName;
+        LastName = domainEvent.LastName;
+        MiddleName = domainEvent.MiddleName;
+        Email = domainEvent.Email;
+    }
+
+    private void When(UserPersonalInfoChanged domainEvent)
+    {
+        FirstName = domainEvent.FirstName;
+        LastName = domainEvent.LastName;
+        MiddleName = domainEvent.MiddleName;
+    }
+
+    private void When(UserEmailChanged domainEvent)
+    {
+        Email = domainEvent.Email;
+    }
 }
