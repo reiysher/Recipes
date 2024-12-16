@@ -1,7 +1,10 @@
 using System.Reflection;
 using EventsAsync.Api;
+using EventsAsync.Api.Features.Users;
 using EventsAsync.Api.Shared.Abstractions;
 using EventsAsync.Api.Shared.Endpoints;
+using EventsAsync.Api.Shared.EventSourcing.Extensions;
+using EventsAsync.Api.Shared.EventSourcing.Projections;
 using EventsAsync.Api.Shared.OpenApi;
 using EventsAsync.Api.Shared.Persistence;
 
@@ -14,15 +17,25 @@ builder.Services
         var schemaHelper = new SwashbuckleSchemaHelper();
         options.CustomSchemaIds(type => schemaHelper.GetSchemaId(type));
     });
-
-
 builder.Services
     .RegisterApplicationServices()
     .RegisterPersistence(builder.Configuration)
     .AddEndpoints(Assembly.GetExecutingAssembly());
 
+builder.Services
+    .AddTransient<ChangeUserEmail.Handler>()
+    .AddTransient<ChangeUserPersonalInfo.Handler>()
+    .AddTransient<GetUser.Handler>()
+    .AddTransient<RegisterUser.Handler>();
+
+
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+builder.Services.AddEventSourcing(options =>
+{
+    options.AddAsyncProjection<UserProjection>();
+});
 
 var webApplication = builder.Build();
 

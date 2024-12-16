@@ -1,6 +1,8 @@
 ﻿using EventsAsync.Api.Shared.Endpoints;
+using EventsAsync.Api.Shared.Entities;
 using EventsAsync.Api.Shared.Persistence;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace EventsAsync.Api.Features.Users;
 
@@ -30,7 +32,16 @@ internal static class GetUser
     {
         public async Task<IResult> Handle(Request query, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var user = await dbContext
+                .Set<UserReadModel>()
+                .SingleOrDefaultAsync(u => u.Id == query.UserId, cancellationToken);
+
+            if (user == null)
+            {
+                return Results.NotFound();
+            }
+
+            return Results.Ok(user);
         }
     }
 }

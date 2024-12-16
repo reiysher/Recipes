@@ -1,7 +1,8 @@
-﻿using EventsSync.Api.Shared.Entities;
-using EventsSync.Api.Shared.EventSourcing.Abstractions;
+﻿using EventsAsync.Api.Shared.Entities;
+using EventsAsync.Api.Shared.EventSourcing.Abstractions;
+using EventsAsync.Api.Shared.Persistence;
 
-namespace EventsSync.Api.Shared.Persistence.Projections;
+namespace EventsAsync.Api.Shared.EventSourcing.Projections;
 
 internal sealed class UserProjection : BaseProjection<UserReadModel>
 {
