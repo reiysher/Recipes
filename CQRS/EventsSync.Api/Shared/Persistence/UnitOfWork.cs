@@ -1,5 +1,4 @@
 ﻿using EventsSync.Api.Shared.Abstractions;
-using EventsSync.Api.Shared.EventSourcing;
 using EventsSync.Api.Shared.EventSourcing.Abstractions;
 
 namespace EventsSync.Api.Shared.Persistence;
@@ -13,10 +12,6 @@ internal sealed class UnitOfWork(
 {
     public async Task<int> Commit(CancellationToken cancellationToken)
     {
-        // todo: uof needs to aggregate changes (events too).
-        // todo: find a way to add changes while saving aggregate
-        // todo: get events from stateful aggregates
-        // todo: combine stateful and event sourcing aggregates
         IReadOnlyCollection<IDomainEvent> domainEvents = eventStore.GetNewDomainEvents();
 
         await ProcessDomainEvents(domainEvents, inlineProjections, cancellationToken);

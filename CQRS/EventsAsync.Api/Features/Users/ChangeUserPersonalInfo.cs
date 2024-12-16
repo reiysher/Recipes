@@ -40,6 +40,7 @@ internal static class ChangeUserPersonalInfo
 
             user.ChangePersonalInfo(command.FirstName, command.LastName, command.MiddleName);
 
+            await userRepository.Save(user, cancellationToken);
             await unitOfWork.Commit(cancellationToken);
 
             return Results.NoContent();

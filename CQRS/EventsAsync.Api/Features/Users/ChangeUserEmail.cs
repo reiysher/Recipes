@@ -40,6 +40,7 @@ internal static class ChangeUserEmail
 
             user.ChangeEmail(command.Email);
 
+            await userRepository.Save(user, cancellationToken);
             await unitOfWork.Commit(cancellationToken);
 
             return Results.NoContent();
