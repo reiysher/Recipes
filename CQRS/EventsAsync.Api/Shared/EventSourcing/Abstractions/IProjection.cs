@@ -10,10 +10,17 @@ public interface IBaseProjection
 }
 
 public interface IInlineProjection : IBaseProjection;
-public interface ILiveProjection : IBaseProjection;
-public interface IAsyncProjection : IBaseProjection;
 
-public interface IProjection : IInlineProjection, ILiveProjection, IAsyncProjection;
+public interface ILiveProjection : IBaseProjection;
+
+public interface IAsyncProjection : IBaseProjection
+{
+    int BatchSize { get; }
+
+    int Delay { get; }
+}
+
+public interface IProjection;
 
 public abstract class BaseProjection<TReadModel> : IProjection
     where TReadModel : class

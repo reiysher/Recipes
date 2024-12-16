@@ -4,9 +4,13 @@ using EventsAsync.Api.Shared.Persistence;
 
 namespace EventsAsync.Api.Shared.EventSourcing.Projections;
 
-internal sealed class UserProjection : BaseProjection<UserReadModel>
+internal sealed class UserProjection : BaseProjection<UserReadModel>, IAsyncProjection
 {
     private readonly ApplicationDbContext _dbContext;
+
+    public int BatchSize => 50;
+
+    public int Delay => 5000;
 
     public UserProjection(ApplicationDbContext dbContext)
     {

@@ -12,7 +12,6 @@ internal sealed class ProjectionService<TProjection>(IServiceProvider servicePro
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-
         while (!stoppingToken.IsCancellationRequested)
         {
             using var scope = _serviceProvider.CreateScope();
@@ -24,13 +23,13 @@ internal sealed class ProjectionService<TProjection>(IServiceProvider servicePro
 
             var events = await eventStore.GetOrderedEvents(
                 checkpoint.Value,
-                50,
+                projection.BatchSize,
                 projection.RelevantEventTypes,
                 stoppingToken);
 
             if (!events.Any())
             {
-                await Task.Delay(5000, stoppingToken);
+                await Task.Delay(projection.Delay, stoppingToken);
             }
             else
             {
